@@ -3,8 +3,7 @@
 @section('content')
 <h1>Quản lý Người Dùng</h1>
 
-
-<a href="{{ route('admin.users.create') }}" class="btn btn-primary">Thêm Người Dùng</a>
+<a href="{{ route('admin.users.create') }}" class="btn btn-primary">Thêm Người Dùng</a> class="btn btn-primary">Thêm Người Dùng</a>
 
 <table class="table">
     <thead>
@@ -33,16 +32,13 @@
             <td>{{ $user->score }}</td>
             <td>{{ $user->trust_score }}</td>
             <td>
-                <a href="{{ url('/admin/users/' . $user->id . '/edit') }}" class="btn btn-warning">Sửa</a>
+                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning">Sửa</a>
 
-            
-                @if(Route::has('admin.users.destroy'))
-                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" style="display:inline;">
-                        @csrf
-                        <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn btn-danger">Xóa</button>
-                    </form>
-                @endif
+                <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?');">Xóa</button>
+                </form>
             </td>
         </tr>
         @endforeach

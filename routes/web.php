@@ -8,18 +8,23 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AdminUserController;
 
 
+Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+
+    // Định nghĩa đầy đủ resource cho AdminUserController
+    Route::resource('admin/users', AdminUserController::class);
+});
+
 // Route sửa người dùng
 Route::get('/admin/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
 Route::get('/admin/users/{user}/create', [AdminUserController::class, 'edit'])->name('admin.users.create');
 
-
-
 Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 
-    Route::resource('/admin/users', AdminUserController::class)->except(['show']);
+    // Định nghĩa route đúng
+    Route::resource('admin/users', AdminUserController::class)->except(['show']);
 });
-
 // Trang chủ
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
